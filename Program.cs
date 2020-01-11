@@ -1,11 +1,3 @@
-﻿/*
- * Created by SharpDevelop.
- * User: Administrator
- * Date: 2020-01-08
- * Time: 오후 2:55
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
 using System;
 
 namespace 간단한게임
@@ -15,10 +7,16 @@ namespace 간단한게임
 		public static void Main(string[] args)
 		{
 			int score = 0;
+			int MovableTimes = 61;
 			ConsoleKeyInfo input;
 			int x1 = 0, x2 = 10, y1 = 0, y2 = 10;
-			first: Console.Clear();
-			Console.WriteLine("score : " + score);
+			first:
+			Console.Clear();
+			MovableTimes--;
+			if(MovableTimes <= 0){
+				goto end;
+			}
+			Console.WriteLine("점수 : " + score + "  이동가능한 횟수 : " + MovableTimes);
 			if(y1 < y2){
 				for(int a = 0; a < y1; a++){
 					Console.Write("\n");
@@ -66,6 +64,7 @@ namespace 간단한게임
 					}
 					Console.Write("■");
 					score++;
+					MovableTimes = 60;
 					goto first;
 				}
 				else{
@@ -104,6 +103,12 @@ namespace 간단한게임
 			if(input.Key == ConsoleKey.LeftArrow && x1 != 0) x1--;      
 			else if(input.Key == ConsoleKey.RightArrow && x1 < 38) x1++;
 			goto first;
+			
+		end:
+			Console.WriteLine("게임 오버");
+			while(true){
+				Console.ReadKey();
+			}
 		}
 	}
 }
