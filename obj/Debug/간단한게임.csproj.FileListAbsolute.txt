@@ -1,0 +1,6 @@
+E:\간단한게임\bin\Debug\간단한게임.exe.config
+E:\간단한게임\bin\Debug\간단한게임.exe
+E:\간단한게임\bin\Debug\간단한게임.pdb
+E:\간단한게임\obj\Debug\간단한게임.csprojResolveAssemblyReference.cache
+E:\간단한게임\obj\Debug\간단한게임.exe
+E:\간단한게임\obj\Debug\간단한게임.pdb
