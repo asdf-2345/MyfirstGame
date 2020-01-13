@@ -7,6 +7,7 @@ namespace 간단한게임
 		static int[,] objects = new int[100,2];
 		static int score = 0;
 		static int MovableTimes = 61;
+		static int[] playerOldPosition = new int[2];
 		public static void Main(string[] args)
 		{
 			ConsoleKeyInfo input;
@@ -19,11 +20,12 @@ namespace 간단한게임
 			Console.Clear();
 			drawing();
 			MovableTimes--;
-			
 			if(MovableTimes <= 0){
 				goto end;
 			}
 			Console.WriteLine("점수 : " + score + "  이동가능한 횟수 : " + MovableTimes);
+			playerOldPosition[0] = objects[0,0];
+			playerOldPosition[1] = objects[0,1];
 			
 			input = Console.ReadKey(true);
 			if(input.Key == ConsoleKey.UpArrow && objects[0,1] != 0) objects[0,1]--;
@@ -40,12 +42,14 @@ namespace 간단한게임
 		}
 		
 		public static void drawing(){
-			if(objects[0,0] == objects[1,0] && objects[0,1] == objects[1,1]){
-				score++;
-				MovableTimes = 61;
-				Random ran = new Random();
-				objects[1,0] = ran.Next(0, 39);
-				objects[1,1] = ran.Next(0, 23);
+			if(objects[0,0] == objects[1,0] && objects[0,1] == objects[1,1])
+				achieveTheGoal();
+			for(int a = 2; a < objects.GetLength(0); a++){//장애물 충돌판정
+				if(objects[0,0] == objects[a,0] && objects[0,1] == objects[a,1]){
+					objects[0,0] = playerOldPosition[0];
+					objects[0,1] = playerOldPosition[1];
+					break;
+				}
 			}
 			for(int a = 0; a < objects.GetLength(0); a++){
 				Console.SetCursorPosition(objects[a,0]*2, objects[a,1]+1);
@@ -56,10 +60,26 @@ namespace 간단한게임
 					Console.Write("□");
 				}
 				else{
-					Console.Write("◇");
+					Console.Write("☆");
 				}		
 			}
 			Console.SetCursorPosition(0,0);
+		}
+		
+		public static void achieveTheGoal(){
+			score++;
+			MovableTimes = 61;
+			Random ran = new Random();
+			objects[1,0] = ran.Next(0, 39);
+			objects[1,1] = ran.Next(0, 23);
+			for(int a = 2; a < 60; a++){
+			randomSetAgain:
+				objects[a,0] = ran.Next(0, 39);
+				objects[a,1] = ran.Next(0, 23);
+				if(objects[0,0] == objects[a,0] && objects[0,1] == objects[a,1] || objects[1,0] == objects[a,0] && objects[0,1] == objects[a,1]){
+					goto randomSetAgain;	
+				}
+			}
 		}
 	}
 }
