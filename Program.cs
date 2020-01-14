@@ -8,16 +8,36 @@ namespace 간단한게임
 		static int score = 0;
 		static int MovableTimes = 61;
 		static int[] playerOldPosition = new int[2];
+		
+		public static void start(){
+      		objects[0,0] = 5;
+      		objects[0,1] = 5;
+      		objects[1,0] = 10;
+      		objects[1,1] = 10;
+      		objects[2,0] = 10;
+      		objects[2,1] = 9;
+      		objects[3,0] = 9;
+      		objects[3,1] = 9;
+      		objects[4,0] = 9;
+      		objects[4,1] = 10;
+      		objects[5,0] = 9;
+      		objects[5,1] = 11;
+      		objects[6,0] = 10;
+      		objects[6,1] = 11;
+      		objects[7,0] = 11;
+      		objects[7,1] = 11;
+      		objects[8,0] = 11;
+      		objects[8,1] = 9;
+	    	//0은 플레이어 1은 목표 2이상은 장애물
+	    	drawing2();
+	    }
+
 		public static void Main(string[] args)
 		{
+			start();
 			ConsoleKeyInfo input;
-			objects[0,0] = 5;
-			objects[0,1] = 5;
-			objects[1,0] = 10;
-			objects[1,1] = 10;
 			//0은 플레이어 1은 목표 2이상은 장애물
 			first:
-			Console.Clear();
 			drawing();
 			MovableTimes--;
 			if(MovableTimes <= 0){
@@ -35,6 +55,8 @@ namespace 간단한게임
 			goto first;
 			
 		end:
+			Console.Clear();
+			Console.SetCursorPosition(35,12);
 			Console.WriteLine("게임 오버");
 			while(true){
 				Console.ReadKey();
@@ -51,18 +73,12 @@ namespace 간단한게임
 					break;
 				}
 			}
-			for(int a = 0; a < objects.GetLength(0); a++){
-				Console.SetCursorPosition(objects[a,0]*2, objects[a,1]+1);
-				if(a == 0){
-					Console.Write("■");
-				}
-				else if(a == 1){
-					Console.Write("□");
-				}
-				else{
-					Console.Write("☆");
-				}		
-			}
+			Console.SetCursorPosition(playerOldPosition[0]*2+1, playerOldPosition[1]+1);
+			Console.WriteLine("\b \b \b \b");
+			
+			Console.SetCursorPosition(objects[0,0]*2, objects[0,1]+1);
+			Console.Write("■");
+			
 			Console.SetCursorPosition(0,0);
 		}
 		
@@ -70,14 +86,27 @@ namespace 간단한게임
 			score++;
 			MovableTimes = 61;
 			Random ran = new Random();
-			objects[1,0] = ran.Next(0, 39);
+			objects[1,0] = ran.Next(0, 38);
 			objects[1,1] = ran.Next(0, 23);
 			for(int a = 2; a < 60; a++){
 			randomSetAgain:
-				objects[a,0] = ran.Next(0, 39);
+				objects[a,0] = ran.Next(0, 38);
 				objects[a,1] = ran.Next(0, 23);
-				if(objects[0,0] == objects[a,0] && objects[0,1] == objects[a,1] || objects[1,0] == objects[a,0] && objects[0,1] == objects[a,1]){
-					goto randomSetAgain;	
+				if(objects[0,0] == objects[a,0] && objects[0,1] == objects[a,1] || objects[1,0] == objects[a,0] && objects[0,1] == objects[a,1])
+					goto randomSetAgain;
+			}
+			drawing2();
+		}
+		
+		public static void drawing2(){
+			Console.Clear();
+			for(int a = 1; a < objects.GetLength(0); a++){
+				Console.SetCursorPosition(objects[a,0]*2, objects[a,1]+1);
+				if(a == 1){
+					Console.Write("□");
+				}
+				else{
+					Console.Write("☆");
 				}
 			}
 		}
